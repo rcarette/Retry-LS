@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 07:51:57 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/05 09:40:26 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/06 14:45:12 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ static void		ft_swap(void *s1, void *s2, int size)
 	}
 }
 
-void			ft_tri_bulle_dlist_sort_time(t_dlist_check **li)
+void			ft_tri_bulle_dlist_sort_time(t_list **li)
 {
-	t_dlistcell		*t;
+	t_list		*t;
 	int				permmut;
-	t_dlistcell		*temporary;
+	t_list		*temporary;
 
 	permmut = 1;
 	if (!(*li))
 		return ;
-	t = (*li)->begin;
+	t = (*li);
 	while (permmut)
 	{
 		permmut = 0;
@@ -60,19 +60,19 @@ void			ft_tri_bulle_dlist_sort_time(t_dlist_check **li)
 			}
 			t = t->next;
 		}
-		t = (*li)->begin;
+		t = (*li);
 	}
 }
 
-void			ft_tri_bulle_dlist_sort_ascii(t_dlist_check **li)
+void			ft_tri_bulle_dlist_sort_ascii(t_list **li)
 {
-	t_dlistcell		*t;
+	t_list		*t;
 	int				permmut;
 
 	permmut = 1;
 	if (!(*li))
 		return ;
-	t = (*li)->begin;
+	t = (*li);
 	while (permmut)
 	{
 		permmut = 0;
@@ -88,6 +88,6 @@ void			ft_tri_bulle_dlist_sort_ascii(t_dlist_check **li)
 			}
 			t = t->next;
 		}
-		t = (*li)->begin;
+		t = (*li);
 	}
 }

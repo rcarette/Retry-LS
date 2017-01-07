@@ -6,153 +6,167 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:59:59 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/05 14:20:09 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 07:27:54 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <sys/ioctl.h>
 
-int				ft_count_character(t_dlist_check *li)
+void			ft_count_arg(t_list *list, t_number *number)
 {
-	t_dlistcell		*temporary;
-	int				size;
+	struct stat		infos;
+
+	while (list)
+	{
+		if (lstat(list->value, &infos) == 0)
+		{
+			if (S_ISREG(infos.st_mode) || S_ISCHR(infos.st_mode)
+				|| S_ISBLK(infos.st_mode) || S_ISLNK(infos.st_mode)
+				|| S_ISSOCK(infos.st_mode) || S_ISFIFO(infos.st_mode))
+				++number->files;
+			else if (S_ISDIR(infos.st_mode))
+			{
+				list->valid = 1;
+				++number->dir;
+			}
+		}
+		else
+		{
+			list->valid = -1;
+			++number->error;
+		}
+		list = list->next;
+	}
+}
+
+void			ft_display_error(t_list *list)
+{
+	while (list)
+	{
+		if (list->valid == -1)
+		{
+			ft_putstr("ft_ls: ");
+			perror(list->value);
+		}
+		list = list->next;
+	}
+}
+
+int				ft_count_character(t_list *list)
+{
+	int		size;
 
 	size = 0;
-	if (li == NULL)
+	if (list == NULL)
 		return (0);
-	temporary = li->begin;
-	while (temporary)
+	while (list)
 	{
-		if (temporary->valid == 0)
-		{
-			if (temporary->size_value > size)
-				size = temporary->size_value;
-		}
-		temporary = temporary->next;
+		if (list->valid == 0)
+			if (ft_strlen(list->value) > size)
+				size = list->size_value;
+		list = list->next;
 	}
 	return (size);
 }
 
-int				display_error(t_dlist_check *li)
+void			ft_print_n(int space, int size)
 {
-	t_dlistcell		*temporary;
-
-	temporary = li->begin;
-	while (temporary)
-	{
-		if (temporary->valid == -1)
-		{
-			ft_putstr("ft_ls: ");
-			perror(temporary->value);
-		}
-		temporary = temporary->next;
-	}
-	return (1);
-}
-
-void			print_n(int space, int size_value)
-{
-	space -= size_value;
+	space -= size;
 	while (space--)
 		ft_putchar(' ');
 }
 
-int				display_files(t_dlist_check *li, int number_file, t_opt *opt)
+void			ft_display_files(t_list **list, t_opt opt, t_number number)
 {
-	int				space;
-	t_dlistcell		*temporary;
-	static int		i;
+	int			space;
+	t_list		*temporary;
 
-	space = ft_count_character(li);
-	i = 0;
-	(opt->date_sort == 1) ? ft_tri_bulle_dlist_sort_time(&li) : 0;
-	temporary = (opt->reverse) ? li->end : li->begin;
+	space = ft_count_character(*list);
+	if (opt.date_sort)
+		ft_tri_bulle_dlist_sort_time(list);
+	(opt.reverse) ? ft_list_reverse(list) : 0;
+	temporary = *list;
 	while (temporary)
 	{
 		if (temporary->valid == 0)
 		{
-			(opt->listing) ? 0 : ft_putstr(temporary->value);
-			if (--number_file > 0)
-				print_n(space, ft_strlen(temporary->value));
+			(opt.listing == 0) ? ft_putstr(temporary->value) : 0;
+			if (--number.files > 0 && opt.listing == 0)
+				ft_print_n(space, ft_strlen(temporary->value));
 		}
-		temporary = (opt->reverse == 1) ? temporary->prev : temporary->next;
+		temporary = temporary->next;
 	}
-	ft_putchar('\n');
-	return (1);
+	(opt.listing == 0) ? ft_putchar('\n') : 0;
 }
 
-t_number		ft_count_arg(t_dlist_check *li)
+void		ft_listdup(t_list **list, t_list	**new_list)
 {
+	t_list			*temporary;
 	struct stat		infos;
-	t_dlistcell		*temporary;
-	t_number		number;
+	t_data			*data;
 
-	number = ft_initialization_number();
-	temporary = li->begin;
+	temporary = *list;
 	while (temporary)
 	{
-		if (lstat(temporary->value, &infos) == 0 && (S_ISREG(infos.st_mode)
-				|| S_ISCHR(infos.st_mode) ||
-				S_ISLNK(infos.st_mode) || S_ISBLK(infos.st_mode)))
-			++number.files;
-		else if (S_ISDIR(infos.st_mode))
+		if (temporary->valid == 1)
 		{
-			temporary->valid = 1;
-			++number.dir;
-		}
-		else
-		{
-			temporary->valid = -1;
-			++number.error;
+			stat(temporary->value, &infos);
+			ft_init_data(&data, temporary->value, infos.st_mtime,
+				(ft_strlen(temporary->value) + 1));
+			push_data(new_list, data);
+			free(data->value);
+			free(data);
 		}
 		temporary = temporary->next;
 	}
-	return (number);
+	ft_clear_list(list);
+	*list = *new_list;
 }
 
-void			ft_start_ls(t_dlist_check *li, t_opt *opt)
+void			ft_start_ls(t_list **list, t_opt opt)
 {
-	t_number		number;
-	t_dlistcell		*temporary;
-	int				i;
-
+	t_number	number;
+	t_list		*new_list;
+	t_list		*temporary;
+	
+	new_list = NULL;
 	number = ft_initialization_number();
-	temporary = li->begin;
-	number = ft_count_arg(li);
-	i = (number.error > 0) ? display_error(li) : 0;
-	i = (number.files > 0) ? display_files(li, number.files, opt) : 0;
-	(i && number.dir > 0) ? ft_putchar('\n') : 0;
-	while (temporary)
-	{
-		printf("%d --> %s\n", temporary->valid, temporary->value);
-		temporary = temporary->next;
-	}
+	ft_count_arg(*list, &number);
+	(number.error > 0) ? ft_display_error(*list) : 0;
+	(number.files > 0) ? ft_display_files(list, opt, number) : 0;
+	if (number.dir > 0 && (number.error > 0 || number.files > 0))
+		ft_putchar('\n');
+	(number.dir) ? ft_listdup(list, &new_list) : 0;
+	temporary = *list;
+
 }
 
 int				main(int argc, char *argv[])
 {
 	t_opt				opt;
-	t_dlist_check		*li;
+	t_list				*li;
 	t_data				*data;
 
-	li = new_dlist();
+	li = new_list();
+	opt = ft_initialization_opt();
 	if (argc == 1 || (argc >= 2 && ft_strcmp(argv[1], "--") == 0)
 					|| (argc >= 2 && argv[1][0] != '-'))
 		creat_param(&li, argc, argv);
 	else
 	{
-		opt = ft_parsing_ls(argc, argv);
+		ft_parsing_ls(argc, argv, &opt);
 		if (!opt.i_param)
 		{
 			ft_init_data(&data, ".", 0, 2);
-			li = push_data(li, data, 1);
+			push_data(&li, data);
 			free(data);
 		}
 		else
 			creat_param_via_i_param(argc, argv, opt, &li);
 	}
 	ft_tri_bulle_dlist_sort_ascii(&li);
-	ft_start_ls(li, &opt);
-	ft_clear_dlists(&li);
+	ft_start_ls(&li, opt);
+	ft_clear_list(&li);
 	return (0);
 }

@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlist.c                                            :+:      :+:    :+:   */
+/*   ft_list_reverse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/29 11:04:33 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/03 13:05:24 by rcarette         ###   ########.fr       */
+/*   Created: 2017/01/06 17:46:04 by rcarette          #+#    #+#             */
+/*   Updated: 2017/01/06 17:46:43 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int				is_empty_dlist(t_dlist_check *li)
+void		ft_list_reverse(t_list **begin_list)
 {
-	if (li == NULL)
-		return (1);
-	return (0);
+	t_list			*list;
+	t_list			*tmp;
+	t_list			*tmp2;
+
+	tmp = NULL;
+	list = *begin_list;
+	if (!list || !(list->next))
+		return ;
+	tmp = list->next;
+	tmp2 = tmp->next;
+	list->next = NULL;
+	tmp->next = list;
+	while (tmp2)
+	{
+		list = tmp;
+		tmp = tmp2;
+		tmp2 = tmp2->next;
+		tmp->next = list;
+	}
+	*begin_list = tmp;
 }
 
-t_dlist_check	*new_dlist(void)
-{
-	return (NULL);
-}

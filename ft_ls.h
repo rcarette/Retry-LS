@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:48:28 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/05 12:36:26 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/06 17:47:04 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,16 @@
 # include "sys/types.h"
 # include "sys/stat.h"
 # include "errno.h"
+# include "dirent.h"
 
-typedef struct				s_dlistcell
+typedef struct				s_list
 {
 	char					*value;
 	int						size_value;
 	time_t					date_value;
 	int						valid;
-	struct s_dlistcell		*next;
-	struct s_dlistcell		*prev;
-}							t_dlistcell;
-
-typedef struct				s_dlist_check
-{
-	int						size_cell;
-	struct s_dlistcell		*begin;
-	struct s_dlistcell		*end;
-}							t_dlist_check;
+	struct s_list			*next;
+}							t_list;
 
 typedef struct				s_data
 {
@@ -60,26 +53,25 @@ typedef struct				s_number
 	int						dir;
 }							t_number;
 
-int							is_empty_dlist(t_dlist_check *li);
-t_dlist_check				*new_dlist(void);
-t_dlistcell					*creat_new_cell(char *data, int size_value,
+t_list						*creat_new_cell(char *data, int size_value,
 							time_t date_value, int valid);
-t_dlist_check				*push_data(t_dlist_check *li, t_data *data,
-							int choice);
-void						print_d_list(t_dlist_check *li, int choice);
-t_dlist_check				*ft_clear_dlists(t_dlist_check **li);
-void						ft_clear_dcell(t_dlist_check **li);
-void						ft_tri_bulle_dlist_sort_time(t_dlist_check **li);
-void						ft_tri_bulle_dlist_sort_ascii(t_dlist_check **li);
+void						push_data(t_list **li, t_data *data);
+void						ft_tri_bulle_dlist_sort_time(t_list **li);
+void						ft_tri_bulle_dlist_sort_ascii(t_list **li);
 
 
 t_opt						ft_initialization_opt(void);
 void						ft_init_data(t_data **data, char *value,
 					time_t date_value, int size_value);
-t_opt						ft_parsing_ls(int ac, char **av);
+void						ft_parsing_ls(int ac, char **av, t_opt *opt);
 void						creat_param_via_i_param(int ac, char **av,
-					t_opt opt,t_dlist_check **li);
-void						creat_param(t_dlist_check **li, int ac, char **av);
+					t_opt opt,t_list **li);
+void						creat_param(t_list **li, int ac, char **av);
 t_number					ft_initialization_number(void);
+void						ft_count_arg(t_list *list, t_number *number);
+void						print_n(int space, int size_value);
+void						ft_clear_list(t_list **list);
+t_list						*new_list(void);
+void						ft_list_reverse(t_list **begin_list);
 #endif
 

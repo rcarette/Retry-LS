@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 14:02:24 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/05 14:06:05 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/06 17:03:36 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,44 +46,41 @@ static void			check_flags(t_opt *opt, char *str)
 	}
 }
 
-t_opt				ft_parsing_ls(int ac, char **av)
+void				ft_parsing_ls(int ac, char **av, t_opt *opt)
 {
 	int		i;
-	t_opt	opt;
 
 	i = 0;
-	opt = ft_initialization_opt();
 	while (++i < ac)
 	{
 		if (ft_strcmp(av[i], "--") == 0)
 		{
-			opt.i_param = ++i;
-			return (opt);
+			opt->i_param = ++i;
+			return ;
 		}
 		else if (av[i][0] == '-')
-			check_flags(&opt, av[i]);
+			check_flags(opt, av[i]);
 		else if (av[i][0] != '-')
 		{
-			opt.i_param = i;
-			return (opt);
+			opt->i_param = i;
+			return ;
 		}
 	}
-	return (opt);
 }
 
-void				creat_param(t_dlist_check **li, int ac, char **av)
+void				creat_param(t_list **li, int ac, char **av)
 {
 	t_data			*data;
 	int				i;
 	struct stat		infos;
 
 	i = 0;
-	if (is_empty_dlist(*li))
+	if ((*li) == NULL)
 	{
 		if (ac == 1 || (ft_strcmp(av[1], "--") == 0 && ac == 2))
 		{
 			ft_init_data(&data, ".", 0, 2);
-			*li = push_data(*li, data, 1);
+			push_data(li, data);
 			free(data->value);
 			free(data);
 			return ;
@@ -93,7 +90,7 @@ void				creat_param(t_dlist_check **li, int ac, char **av)
 		{
 			stat(av[i], &infos);
 			ft_init_data(&data, av[i], infos.st_mtime, (ft_strlen(av[i]) + 1));
-			*li = push_data(*li, data, 1);
+			push_data(li, data);
 			free(data->value);
 			free(data);
 		}
@@ -101,7 +98,7 @@ void				creat_param(t_dlist_check **li, int ac, char **av)
 }
 
 void				creat_param_via_i_param(int ac, char **av, t_opt opt,
-		t_dlist_check **li)
+		t_list **li)
 {
 	t_data			*data;
 	struct stat		infos;
@@ -112,7 +109,7 @@ void				creat_param_via_i_param(int ac, char **av, t_opt opt,
 			stat(av[opt.i_param], &infos);
 		ft_init_data(&data, av[opt.i_param], infos.st_mtime,
 				(ft_strlen(av[opt.i_param]) + 1));
-		*li = push_data(*li, data, 1);
+		push_data(li, data);
 		free(data->value);
 		free(data);
 		++opt.i_param;

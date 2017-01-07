@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_clear_dcell.c                                   :+:      :+:    :+:   */
+/*   ft_clear_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/03 06:59:42 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/03 12:51:57 by rcarette         ###   ########.fr       */
+/*   Created: 2017/01/06 15:10:06 by rcarette          #+#    #+#             */
+/*   Updated: 2017/01/06 19:37:45 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_clear_dcell(t_dlist_check **li)
+void	ft_clear_list(t_list **list)
 {
-	t_dlistcell		*temporary;
-
-	if (*li == NULL)
-		return ;
-	else if ((*li)->size_cell == 0)
+	t_list		*delete;
+	while (*list)
 	{
-		free(*li);
-		*li = new_dlist();
-		return ;
+		delete = (*list);
+		(*list) = (*list)->next;
+		free(delete->value);
+		free(delete);
 	}
-	temporary = (*li)->begin;
-	(*li)->begin = temporary->next;
-	(*li)->size_cell--;
-	free(temporary->value);
-	free(temporary);
 }
