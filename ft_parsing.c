@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 14:02:24 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/06 17:03:36 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 14:01:17 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ void				creat_param(t_list **li, int ac, char **av)
 			stat(av[i], &infos);
 			ft_init_data(&data, av[i], infos.st_mtime, (ft_strlen(av[i]) + 1));
 			push_data(li, data);
-			free(data->value);
-			free(data);
+			ft_free_data(&data);
 		}
 	}
 }
@@ -110,8 +109,7 @@ void				creat_param_via_i_param(int ac, char **av, t_opt opt,
 		ft_init_data(&data, av[opt.i_param], infos.st_mtime,
 				(ft_strlen(av[opt.i_param]) + 1));
 		push_data(li, data);
-		free(data->value);
-		free(data);
+		ft_free_data(&data);
 		++opt.i_param;
 	}
 }

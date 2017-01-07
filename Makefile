@@ -6,7 +6,7 @@
 #    By: rcarette <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/29 01:54:40 by rcarette          #+#    #+#              #
-#    Updated: 2017/01/07 09:19:42 by rcarette         ###   ########.fr        #
+#    Updated: 2017/01/07 15:19:33 by rcarette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRCS = ft_tri_bulle_dlist.c\
 	   read_directory/ft_start_read_directory.c\
 	   read_directory/error/ft_opendir.c\
 	   read_directory/error/ft_error_open_dir.c\
+	   read_directory/ft_free_data.c\
+	   read_directory/read_files/ft_read_file.c\
 
 OBJ = ft_tri_bulle_dlist.o\
 	   push_data.o\
@@ -48,6 +50,8 @@ OBJ = ft_tri_bulle_dlist.o\
 	   ft_opendir.o\
 	   ft_error_open_dir.o\
 	   ft_lenght_list.o\
+	   ft_free_data.o\
+	   ft_read_file.o\
 
 
 all: $(NAME)

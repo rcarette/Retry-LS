@@ -6,17 +6,18 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:48:28 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 10:56:51 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 16:24:56 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 # include "libft/libft.h"
-# include "sys/types.h"
-# include "sys/stat.h"
-# include "errno.h"
-# include "dirent.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <errno.h>
+# include <dirent.h>
+# include <sys/ioctl.h>
 
 typedef struct				s_list
 {
@@ -56,7 +57,7 @@ typedef struct				s_number
 typedef struct				s_dir
 {
 	t_list			*join_new_list;
-	t_list			*read_new_list;
+	t_list			*read_list;
 	char			*path;
 
 }							t_dir;
@@ -94,5 +95,8 @@ DIR							*ft_opendir(char *name);
 void						ft_display(char *name);
 int							ft_lenght_list(t_list *list);
 void						ft_init_dir(t_dir *dir);
+void						ft_error_open_dir(char *name);
+void						ft_free_data(t_data **data);
+void						ft_read_file(t_list *name, int size_term);
 #endif
 

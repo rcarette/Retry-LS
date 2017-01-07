@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_opendir.c                                       :+:      :+:    :+:   */
+/*   ft_free_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/07 08:21:38 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 13:53:08 by rcarette         ###   ########.fr       */
+/*   Created: 2017/01/07 13:57:58 by rcarette          #+#    #+#             */
+/*   Updated: 2017/01/07 13:58:52 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../ft_ls.h"
+#include "../ft_ls.h"
 
-DIR		*ft_opendir(char *name)
+void	ft_free_data(t_data **data)
 {
-	DIR		*rep;
-
-	if (!(rep = opendir(name)))
-		return (NULL);
-	return (rep);
+	free((*data)->value);
+	free(*data);
 }
-
-void	ft_display(char *name)
-{
-		ft_putstr("\033[33m");
-		ft_putstr(name);
-		ft_putendl(":");
-		ft_putstr("\033[0m");
-}
-
