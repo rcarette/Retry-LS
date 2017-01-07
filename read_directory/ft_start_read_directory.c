@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 07:59:35 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 17:00:24 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 17:26:55 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void					ft_read_directory(t_list **new_list, t_opt opt)
 	(opt.reverse) ? ft_list_reverse(new_list) : 0;
 	if (!opt.listing)
 		ft_read_file(*new_list, w.ws_col);
+	if (opt.listing == 1)
+	{
+		// Action !!
+	}
 	ft_clear_list(new_list);
 	ft_putchar('\n');
 }
