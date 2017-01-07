@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:48:28 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/06 17:47:04 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 10:56:51 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ typedef struct				s_number
 	int						dir;
 }							t_number;
 
+typedef struct				s_dir
+{
+	t_list			*join_new_list;
+	t_list			*read_new_list;
+	char			*path;
+
+}							t_dir;
+
 t_list						*creat_new_cell(char *data, int size_value,
 							time_t date_value, int valid);
 void						push_data(t_list **li, t_data *data);
@@ -73,5 +81,18 @@ void						print_n(int space, int size_value);
 void						ft_clear_list(t_list **list);
 t_list						*new_list(void);
 void						ft_list_reverse(t_list **begin_list);
+void						ft_display_files(t_list **list, t_opt
+					opt, t_number number);
+void						ft_print_n(int space, int size);
+void						ft_count_arg(t_list *list, t_number *number);
+void						ft_display_error(t_list *list);
+int							ft_count_character(t_list *list);
+void						ft_listdup(t_list **list, t_list	**new_list);
+void						ft_start_read_directory(t_list **list, t_opt opt,
+					t_number number);
+DIR							*ft_opendir(char *name);
+void						ft_display(char *name);
+int							ft_lenght_list(t_list *list);
+void						ft_init_dir(t_dir *dir);
 #endif
 

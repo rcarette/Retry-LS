@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 13:23:23 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/04 16:53:23 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/07 10:57:01 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,11 @@ t_number	ft_initialization_number(void)
 	number.files = 0;
 	number.dir = 0;
 	return (number);
+}
+
+void	 ft_init_dir(t_dir *dir)
+{
+	(dir)->join_new_list = NULL;
+	(dir)->read_new_list = NULL;;
+	(dir)->path = NULL;
 }
