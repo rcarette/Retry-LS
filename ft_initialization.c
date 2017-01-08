@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 13:23:23 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/08 07:51:01 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 10:32:27 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ void	 ft_init_dir(t_dir *dir)
 	(dir)->join_new_list = NULL;
 	(dir)->read_list = NULL;;
 	(dir)->path = NULL;
+}
+
+void	ft_init_infos(t_infos *inf)
+{
+	inf->size_name = 0;
+	inf->size_group = 0;
+	inf->size_octets = 0;
+	inf->size_nlink = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:48:28 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/08 07:58:08 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 18:10:55 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <errno.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+# include <grp.h>
+# include <pwd.h>
+# include <time.h>
 
 typedef struct				s_list
 {
@@ -57,11 +60,18 @@ typedef struct				s_number
 
 typedef struct				s_dir
 {
-	t_list			*join_new_list;
-	t_list			*read_list;
-	char			*path;
-
+	t_list					*join_new_list;
+	t_list					*read_list;
+	char					*path;
 }							t_dir;
+
+typedef struct				s_infos
+{
+	int						size_name;
+	int						size_group;
+	int						size_octets;
+	int						size_nlink;
+}							t_infos;
 
 t_list						*creat_new_cell(char *data, int size_value,
 							time_t date_value, int valid);
@@ -100,5 +110,19 @@ void						ft_error_open_dir(char *name);
 void						ft_free_data(t_data **data);
 void						ft_read_file(t_list *name, int size_term);
 void						ft_display_one(t_list *list);
+void						ft_display_listing(t_list *list);
+void						ft_count_line_total(char *name, t_opt opt,
+					int totals);
+char						*ft_insert_slash(char *name, char *current);
+void						ft_init_infos(t_infos *inf);
+int							ft_getlen_int(int x);
+t_infos						ft_get_infos(t_list *list);
+void						ft_listing(t_list *list);
+void						ft_get_symbolique(char *name, int i);
+void						ft_print_link(int nlink, int size);
+void						ft_print_group(int gid, int size);
+void						ft_print_name(int uid, int size);
+void						ft_print_octets(int octets, int size);
+void						ft_print_dated(char *dated, time_t date);
 #endif
 

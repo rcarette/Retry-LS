@@ -6,13 +6,13 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 07:44:23 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 07:44:37 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 16:42:20 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void		ft_listdup(t_list **list, t_list	**new_list)
+void		ft_listdup(t_list **list, t_list **new_list)
 {
 	t_list			*temporary;
 	struct stat		infos;

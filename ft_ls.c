@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:59:59 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 09:53:15 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 17:16:53 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void			ft_start_ls(t_list **list, t_opt opt)
 	number = ft_initialization_number();
 	ft_count_arg(*list, &number);
 	(number.error > 0) ? ft_display_error(*list) : 0;
-	(number.files > 0) ? ft_display_files(list, opt, number) : 0;
+	if (number.files > 0 && opt.listing > 0 && opt.listing > opt.opt_one)
+		ft_listing(*list);
+	else
+		(number.files > 0) ? ft_display_files(list, opt, number) : 0;
 	if (number.dir > 0 && (number.error > 0 || number.files > 0))
 		ft_putchar('\n');
 	(number.dir >= 1) ? ft_listdup(list, &new_list) : 0;

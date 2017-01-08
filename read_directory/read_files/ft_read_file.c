@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:17:36 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/08 07:59:45 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 18:16:06 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_read_file(t_list *list, int size_term)
 			if (list->next != NULL)
 				ft_print_n(size, ft_strlen(str));
 		if (list->next == NULL)
-			break;
+			break ;
 		if (i == x)
 		{
 			ft_putchar('\n');
@@ -55,6 +55,7 @@ void	ft_read_file(t_list *list, int size_term)
 		}
 		list = list->next;
 	}
+	ft_putchar('\n');
 }
 
 void	ft_display_one(t_list *list)

@@ -6,13 +6,13 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 07:59:35 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/08 08:09:10 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 18:18:39 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-static char				*ft_insert_slash(char *name, char *current)
+char					*ft_insert_slash(char *name, char *current)
 {
 	char	*temporary;
 	char	*str;
@@ -55,21 +55,18 @@ void					ft_read_directory(t_list **new_list, t_opt opt)
 {
 	char				*str;
 	struct winsize		w;
-	
+
 	ioctl(0, TIOCGWINSZ, &w);
 	(opt.date_sort == 0) ? ft_tri_bulle_dlist_sort_ascii(new_list) : 0;
 	(opt.date_sort == 1) ? ft_tri_bulle_dlist_sort_time(new_list) : 0;
 	(opt.reverse) ? ft_list_reverse(new_list) : 0;
-	if (opt.opt_one == 1 && opt.listing == 0)
+	if (opt.opt_one != 0 && opt.opt_one > opt.listing)
 		ft_display_one(*new_list);
-	else if (!opt.listing)
+	else if (opt.listing == 0)
 		ft_read_file(*new_list, w.ws_col);
-	else if (opt.listing == 1)
-	{
-		// Action !!
-	}
+	else if (opt.listing > 0)
+		ft_display_listing(*new_list);
 	ft_clear_list(new_list);
-	(opt.opt_one == 0 ) ? ft_putchar('\n') : 0;
 }
 
 void					ft_treatement_dir(char *name, t_opt opt, t_list **list,
@@ -94,8 +91,8 @@ void					ft_treatement_dir(char *name, t_opt opt, t_list **list,
 						push_data(&dir.join_new_list, data);
 		if (opt.file_hide == 1 || current->d_name[0] != '.')
 			push_data(&dir.read_list, data);
-	ft_free_data(&data);
-	free(dir.path);
+		ft_free_data(&data);
+		free(dir.path);
 	}
 	(dir.join_new_list != NULL) ? join_dir(list, &dir.join_new_list, opt) : 0;
 	(dir.read_list != NULL) ? ft_read_directory(&dir.read_list, opt) : 0;
@@ -119,6 +116,8 @@ void					ft_start_read_directory(t_list **list, t_opt opt,
 		}
 		else
 		{
+			if (opt.listing > 0 && opt.listing > opt.opt_one)
+				 ft_count_line_total((*list)->value, opt, 0);
 			temporary = (*list);
 			ft_treatement_dir((*list)->value, opt, list, rep);
 			(*list) = (*list)->next;

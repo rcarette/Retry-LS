@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 14:02:24 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/08 07:53:27 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 09:02:25 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static void			check_flags(t_opt *opt, char *str)
 		else if (str[i] == 'R')
 			opt->upper_r = 1;
 		else if (str[i] == 'l')
-			opt->listing = 1;
+			opt->listing = i;
 		else if (str[i] == 't')
 			opt->date_sort = 1;
 		else if (str[i] == 'a')
 			opt->file_hide = 1;
 		else if (str[i] == '1')
-			opt->opt_one = 1;
+			opt->opt_one = i;
 		else
 		{
 			ft_error_flags(str[i]);
