@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 12:48:28 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 16:24:56 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 07:58:08 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct				s_opt
 	int						listing;
 	int						file_hide;
 	int						i_param;
+	int						opt_one;
 	int						number_opt;
 }							t_opt;
 
@@ -98,5 +99,6 @@ void						ft_init_dir(t_dir *dir);
 void						ft_error_open_dir(char *name);
 void						ft_free_data(t_data **data);
 void						ft_read_file(t_list *name, int size_term);
+void						ft_display_one(t_list *list);
 #endif
 

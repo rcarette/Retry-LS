@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 07:59:35 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 17:26:55 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 08:09:10 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,16 @@ void					ft_read_directory(t_list **new_list, t_opt opt)
 	(opt.date_sort == 0) ? ft_tri_bulle_dlist_sort_ascii(new_list) : 0;
 	(opt.date_sort == 1) ? ft_tri_bulle_dlist_sort_time(new_list) : 0;
 	(opt.reverse) ? ft_list_reverse(new_list) : 0;
-	if (!opt.listing)
+	if (opt.opt_one == 1 && opt.listing == 0)
+		ft_display_one(*new_list);
+	else if (!opt.listing)
 		ft_read_file(*new_list, w.ws_col);
-	if (opt.listing == 1)
+	else if (opt.listing == 1)
 	{
 		// Action !!
 	}
 	ft_clear_list(new_list);
-	ft_putchar('\n');
+	(opt.opt_one == 0 ) ? ft_putchar('\n') : 0;
 }
 
 void					ft_treatement_dir(char *name, t_opt opt, t_list **list,
@@ -91,10 +93,9 @@ void					ft_treatement_dir(char *name, t_opt opt, t_list **list,
 					if (S_ISDIR(info.st_mode))
 						push_data(&dir.join_new_list, data);
 		if (opt.file_hide == 1 || current->d_name[0] != '.')
-		{
 			push_data(&dir.read_list, data);
-			ft_free_data(&data);
-		}
+	ft_free_data(&data);
+	free(dir.path);
 	}
 	(dir.join_new_list != NULL) ? join_dir(list, &dir.join_new_list, opt) : 0;
 	(dir.read_list != NULL) ? ft_read_directory(&dir.read_list, opt) : 0;

@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:17:36 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 17:25:28 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 07:59:45 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ void	ft_read_file(t_list *list, int size_term)
 			ft_putchar('\n');
 			i = 0;
 		}
+		list = list->next;
+	}
+}
+
+void	ft_display_one(t_list *list)
+{
+	char	*str;
+
+	while (list)
+	{
+		str = ft_strrchr(list->value, '/');
+		ft_putendl(++str);
 		list = list->next;
 	}
 }

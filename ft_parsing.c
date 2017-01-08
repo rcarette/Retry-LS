@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 14:02:24 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 14:01:17 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 07:53:27 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void			ft_error_flags(char character)
 {
-	ft_putstr("ls: illegal option -- ");
+	ft_putstr("ft_ls: illegal option -- ");
 	ft_putchar(character);
 	ft_putchar('\n');
-	ft_putendl("usage: ls [-altrR] [file ...]");
+	ft_putendl("usage: ls [-altrR1] [file ...]");
 }
 
 static void			check_flags(t_opt *opt, char *str)
@@ -37,6 +37,8 @@ static void			check_flags(t_opt *opt, char *str)
 			opt->date_sort = 1;
 		else if (str[i] == 'a')
 			opt->file_hide = 1;
+		else if (str[i] == '1')
+			opt->opt_one = 1;
 		else
 		{
 			ft_error_flags(str[i]);

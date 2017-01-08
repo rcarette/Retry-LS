@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 13:23:23 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/07 13:56:28 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/08 07:51:01 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_opt		ft_initialization_opt(void)
 	option.listing = 0;
 	option.file_hide = 0;
 	option.i_param = 0;
+	option.opt_one = 0;
 	option.number_opt = 0;
 	return (option);
 }
